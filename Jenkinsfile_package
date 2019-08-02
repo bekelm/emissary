@@ -18,8 +18,6 @@ pipeline {
 		sh 'mkdir -p ~/.m2'
 		sh 'sudo chown -R $(whoami):$(whoami) ~/.m2'
 		sh 'rm -rf ~/.m2/repository'
-		sh 'mv src/test/resources/jenkins_config/settings.xml ~/.m2'
-		sh 'mv src/test/resources/jenkins_config/settings-security.xml ~/.m2'
 		sh 'sudo chown -R $(whoami):$(whoami) $(pwd)'
 		sh 'mvn clean install'
 		sh 'mvn clean compile'
@@ -38,7 +36,7 @@ pipeline {
 	}
         stage('Test') {
             steps {
-	        sh 'mvn test'
+	    	sh 'mvn test'
 		sh 'rm -f test_results'
 		sh 'sudo ./Docker_compose_test_script.sh'
             }
@@ -58,7 +56,7 @@ pipeline {
 		    sh ('if [ "$GIT_NAME" != "default" -a "$TAG_EMISSARY" != "" ]; then git add .; fi;')
 		    sh ('if [ "$GIT_NAME" != "default" -a "$TAG_EMISSARY" != "" ]; then git commit -m "Commit made from Jenkins for tag ${TAG_EMISSARY}"; fi;')
 		    sh ('if [ "$GIT_NAME" != "default" -a "$TAG_EMISSARY" != "" ]; then git tag -a ${TAG_EMISSARY} -m "Jenkins tag of ${TAG_EMISSARY}"; fi;')
-		    sh ('if [ "$GIT_NAME" != "default" -a "$TAG_EMISSARY" != "" ]; then git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/bekelm/emissary.git --tags; fi;')
+		    sh ('if [ "$GIT_NAME" != "default" -a "$TAG_EMISSARY" != "" ]; then git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/NationalSecurityAgency/emissary.git --tags; fi;')
 		}
 	    }
 	}
